@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import Welcome from './pages/Welcome';
@@ -8,12 +8,15 @@ import { Vacations } from './areas/Vacations';
 import { AdminVacations, AddVacation, EditVacation, VacationReport } from './areas/Admin';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
+import { PUBLIC_PATH } from './utils/config';
 import './App.css';
+
+const routerBasename = PUBLIC_PATH === '/' ? undefined : PUBLIC_PATH.replace(/\/$/, '');
 
 const App: React.FC = () => {
   return (
     <AuthProvider>
-      <Router>
+      <Router basename={routerBasename}>
         <div className="App">
           <Navbar />
           <main className="main-content">

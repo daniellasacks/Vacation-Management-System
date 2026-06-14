@@ -36,6 +36,8 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.API_BASE_URL': JSON.stringify(apiBaseUrl),
       'process.env.ASSETS_BASE_URL': JSON.stringify(assetsBaseUrl),
+      'process.env.DEMO_MODE': JSON.stringify(process.env.DEMO_MODE === 'true'),
+      'process.env.PUBLIC_PATH': JSON.stringify(process.env.PUBLIC_PATH || '/'),
     }),
   ],
   devServer: {
