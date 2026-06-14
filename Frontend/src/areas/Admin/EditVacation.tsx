@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Vacation, UpdateVacationData } from '../../types';
 import { api, vacationsAPI } from '../../services/api';
+import { getVacationImageUrl } from '../../utils/config';
 
 const EditVacation: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -154,7 +155,7 @@ const EditVacation: React.FC = () => {
           <div className="form-group">
             <label>Current Image</label>
             <img
-              src={`http://localhost:3001/uploads/${vacation.image_filename}`}
+              src={getVacationImageUrl(vacation.image_filename) || ''}
               alt={vacation.destination}
               className="image-preview"
             />

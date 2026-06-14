@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Vacation } from '../../types';
+import { getVacationImageUrl } from '../../utils/config';
 
 interface VacationCardProps {
   vacation: Vacation;
@@ -57,7 +58,7 @@ const VacationCard: React.FC<VacationCardProps> = ({
       <div className="card-image-container">
         {vacation.image_filename ? (
           <img
-            src={`http://localhost:3001/uploads/${vacation.image_filename}`}
+            src={getVacationImageUrl(vacation.image_filename) || ''}
             alt={vacation.destination}
             className="card-image"
             onError={(e) => {

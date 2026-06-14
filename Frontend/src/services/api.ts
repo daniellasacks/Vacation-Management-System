@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { AuthResponse, VacationsResponse, Vacation, ReportData, CreateVacationData, UpdateVacationData } from '../types';
-
-const API_BASE_URL = 'http://localhost:3001/api';
+import { API_BASE_URL } from '../utils/config';
 
 const api = axios.create({
   baseURL: API_BASE_URL,

@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: vacation-management-system
+    runtime: node
+    plan: free
+    rootDir: Backend
+    buildCommand: npm install && npm run build:all
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DEMO_MODE
+        value: true
+      - key: JWT_SECRET
+        generateValue: true

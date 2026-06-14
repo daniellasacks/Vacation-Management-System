@@ -1,11 +1,17 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+
+const isProduction = process.env.NODE_ENV === 'production';
+const apiBaseUrl = process.env.API_BASE_URL || (isProduction ? '/api' : 'http://localhost:3001/api');
+const assetsBaseUrl = process.env.ASSETS_BASE_URL || (isProduction ? '' : 'http://localhost:3001');
 
 module.exports = {
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
+    publicPath: process.env.PUBLIC_PATH || '/',
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
@@ -26,6 +32,10 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
+    }),
+    new webpack.DefinePlugin({
+      'process.env.API_BASE_URL': JSON.stringify(apiBaseUrl),
+      'process.env.ASSETS_BASE_URL': JSON.stringify(assetsBaseUrl),
     }),
   ],
   devServer: {
