@@ -1,0 +1,355 @@
+{
+  "info": {
+    "name": "Vacation Management API",
+    "description": "API collection for the Vacation Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3001/api",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('auth_token', response.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@vacation.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Vacations",
+      "item": [
+        {
+          "name": "Get All Vacations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/vacations?page=1&filter=all",
+              "host": ["{{base_url}}"],
+              "path": ["vacations"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "filter",
+                  "value": "all"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Liked Vacations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/vacations?page=1&filter=liked",
+              "host": ["{{base_url}}"],
+              "path": ["vacations"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "filter",
+                  "value": "liked"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Active Vacations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/vacations?page=1&filter=active",
+              "host": ["{{base_url}}"],
+              "path": ["vacations"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "filter",
+                  "value": "active"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Upcoming Vacations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/vacations?page=1&filter=upcoming",
+              "host": ["{{base_url}}"],
+              "path": ["vacations"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "filter",
+                  "value": "upcoming"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Vacation by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/vacations/1",
+              "host": ["{{base_url}}"],
+              "path": ["vacations", "1"]
+            }
+          }
+        },
+        {
+          "name": "Like Vacation",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/vacations/1/like",
+              "host": ["{{base_url}}"],
+              "path": ["vacations", "1", "like"]
+            }
+          }
+        },
+        {
+          "name": "Unlike Vacation",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/vacations/1/like",
+              "host": ["{{base_url}}"],
+              "path": ["vacations", "1", "like"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Vacations",
+      "item": [
+        {
+          "name": "Create Vacation",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "destination",
+                  "value": "Test Destination",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Test Description",
+                  "type": "text"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2024-12-01",
+                  "type": "text"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2024-12-07",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "1500.00",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/vacations",
+              "host": ["{{base_url}}"],
+              "path": ["vacations"]
+            }
+          }
+        },
+        {
+          "name": "Update Vacation",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "destination",
+                  "value": "Updated Destination",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Updated Description",
+                  "type": "text"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2024-12-01",
+                  "type": "text"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2024-12-07",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "1600.00",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/vacations/1",
+              "host": ["{{base_url}}"],
+              "path": ["vacations", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Vacation",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/vacations/1",
+              "host": ["{{base_url}}"],
+              "path": ["vacations", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Vacation Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/vacations/report",
+              "host": ["{{base_url}}"],
+              "path": ["vacations", "report"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "API Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
